@@ -9,8 +9,12 @@ DECODE_TX=$(bitcoin-cli -regtest decoderawtransaction "$RAW_TX")
 PUB_KEYS=$(echo "$DECODE_TX" | jq -r '.vin[].txinwitness[1]')
 
 # format pubkeys
-FORMATTED_KEYS=$(echo "$PUB_KEYS" | jq -R . | jq -s .)
+FORMATTED_KEYS=$(echo "$PUB_KEYS" | sort | jq -R . | jq -s)
 
 # create multisig address
-bitcoin-cli -regtest -rpcwallet="builderswallet" createmultisig 1 "$FORMATTED_KEYS" 'p2sh-segwit'
+MULTISIG_ADDR=$(bitcoin-cli -regtest createmultisig 1 "$FORMATTED_KEYS" 'p2sh-segwit' | jq -r '.redeemScript')
 
+#echo "$DECODE_TX"
+
+echo "DEBUG: My Address: $MULTISIG_ADDR"
+echo -n "$MULTISIG_ADDR" | tr -d '\n' | sha256sum
