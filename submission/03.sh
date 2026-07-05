@@ -12,5 +12,4 @@ PUB_KEYS=$(echo "$DECODE_TX" | jq -r '.vin[].txinwitness[1]')
 FORMATTED_KEYS=$(echo "$PUB_KEYS" | sort | jq -R . | jq -s)
 
 # create multisig address
-MULTISIG_ADDR=$(bitcoin-cli -regtest createmultisig 1 "$FORMATTED_KEYS" 'p2sh-segwit' | jq -r '.address')
-
+bitcoin-cli -regtest createmultisig 1 "$FORMATTED_KEYS" 'p2sh-segwit' | jq -r '.address'
