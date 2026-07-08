@@ -19,6 +19,6 @@ bitcoin-cli -regtest createpsbt \
 '[
   {
     "2MvLcssW49n9atmksjwg2ZCMsEMsoj3pzUP": 0.2
-  },
+  }
 ]'
 
